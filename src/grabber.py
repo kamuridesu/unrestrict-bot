@@ -1,4 +1,4 @@
-from telethon import TelegramClient, events
+from telethon import TelegramClient
 from telethon.sessions import StringSession
 from .configs import API_HASH, API_ID, SESSION_STRING
 
@@ -12,7 +12,3 @@ async def get_public_chat_id_from_name(chat_name: str):
 
 async def get_message_details(chat_id: str | int, message_id: str | int):
     return await client.get_messages(chat_id, ids=message_id)
-
-
-async def copy_message(target_chat_id: str | int, message):
-    return await client.send_message(target_chat_id, message)
