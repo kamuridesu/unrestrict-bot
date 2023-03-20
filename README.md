@@ -54,3 +54,8 @@ docker-compose up --build -d
 Just run this script: https://github.com/kamuridesu/save-restricted-bot/blob/main/generate_session.py
 
 If it asks you for a bot token or your number, use your number.
+
+# TODO
+
+- Add caching
+- Add private chats and channels support

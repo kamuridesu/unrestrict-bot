@@ -3,6 +3,7 @@ import asyncio
 from src.grabber import client, StringSession
 from src.sender import dispatcher
 
+
 async def main():
     async with client:
         print("bot started!")
