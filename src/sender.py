@@ -6,16 +6,27 @@ from .configs import BOT_TOKEN, API_HOST
 from .parsers import get_message_informations
 from .handlers import handle_message, handle_invite
 
-
-local_server = TelegramAPIServer.from_base(API_HOST)
-bot_client = Bot(BOT_TOKEN, server=local_server)
+bot_client = None
+if API_HOST is not None:
+    local_server = TelegramAPIServer.from_base(API_HOST)
+    bot_client = Bot(BOT_TOKEN, server=local_server)
+else:
+    print("WARNING: using Telegram's default bot API will limit your bot")
+    print("Some of the limits are:")
+    print("  20MB limit for downloading files")
+    print("  50MB limit for uploading files")
+    print("Please, consider running your own bot API server to avoid those limits.")
+    bot_client = Bot(BOT_TOKEN)
 dispatcher = Dispatcher(bot_client)
 
 
 @dispatcher.message_handler(commands=["start", "help"])
 async def send_help(message: Message):
     return await message.reply(
-        "Send me a link for a public group and I'll forward the message to you"
+        f"""Send me a link for a public group and I'll forward the message to you.
+If you want to save content from a private group, first send me the invite link so I can see the messages too!
+My source code: https://github.com/kamuridesu/unrestrict-bot
+"""
     )
 
 
