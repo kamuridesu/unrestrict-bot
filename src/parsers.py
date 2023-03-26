@@ -1,3 +1,9 @@
+"""Parses the messages to check for the following:
+- Public chat messages
+- Private chat messages
+- Private chat links"""
+
+
 from .grabber import get_public_chat_id_from_name
 
 
@@ -14,7 +20,6 @@ async def get_private_group_link(message: str) -> None:
 
 async def get_message_informations(message: str) -> dict:
     if link_details := await get_private_group_link(message):
-        print("returning link")
         return link_details
     if "https://t.me/" in message:
         message_data = message.split("/")
@@ -36,4 +41,6 @@ async def get_message_informations(message: str) -> dict:
                 "chat_id": chat_id,
                 "message_id": message_id_in_group,
             }
-    return {}
+    return {
+        "type": "unknown"
+    }

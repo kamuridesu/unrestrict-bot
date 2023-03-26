@@ -1,9 +1,19 @@
+"""Handlers for handling messages, join groups and more.
+
+TODO:
+    - Decrease memory usage:
+        - Do not load all the file to memory. Find a way to send the file without loading it to memory.
+"""
+
+
 import telethon
 
+from tempfile import NamedTemporaryFile
 from typing import Callable, Coroutine, Any
 from aiogram.types import Message
+from aiogram.types.input_file import InputFile
 from telethon.tl.custom.message import Message as TMessage
-from telethon.tl.types import MessageMediaPhoto, MessageMediaDocument, MessageMediaWebPage
+from telethon.tl.types import MessageMediaPhoto, MessageMediaDocument
 
 from .grabber import get_message_details, join_channel_or_group
 from .util import Progress
@@ -11,7 +21,7 @@ from .util import Progress
 
 async def get_send_file_function(
     message_to_copy: TMessage, message: Message
-) -> Callable[[bytes], Coroutine[Any, Any, Message]] | None:
+) -> Callable[[bytes | InputFile], Coroutine[Any, Any, Message]] | None:
     if isinstance(message_to_copy.media, MessageMediaPhoto):
         return message.reply_photo
     if isinstance(message_to_copy.media, MessageMediaDocument):
@@ -33,14 +43,16 @@ async def forward_message(
     if message_to_copy.media:
         await update_message.edit_text("Downloading media")
         print("Downloading media")
-        file_bytes: bytes = await message_to_copy.download_media(
-            file=bytes, progress_callback=progress.update
-        )
-        await update_message.edit_text("Sending media")
-        if function := await get_send_file_function(message_to_copy, message):
-            sent_message = await function(file_bytes)
-        else:
-            sent_message = await message.reply(message_to_copy.text)
+        with NamedTemporaryFile("rb+") as file:
+            await message_to_copy.download_media(
+                file=file, progress_callback=progress.update
+            )
+            await update_message.edit_text("Sending media")
+            if function := await get_send_file_function(message_to_copy, message):
+                file.seek(0)
+                sent_message = await function(file.read())
+            else:
+                sent_message = await message.reply(message_to_copy.text)
     await update_message.delete()
     print("Done!")
     return sent_message

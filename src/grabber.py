@@ -1,3 +1,9 @@
+"""Grabs the content using a user account
+
+This account may join the chat to be able to see the contents too
+"""
+
+
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.custom.message import Message

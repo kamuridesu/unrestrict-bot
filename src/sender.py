@@ -1,3 +1,8 @@
+"""Sender methods for the bot that sends the contents
+
+It also load the configs and searches for a local web API. If not found, it gives a warning"""
+
+
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 from aiogram.bot.api import TelegramAPIServer
@@ -37,4 +42,3 @@ async def handle_all_messages(message: Message):
         return await handle_message(message, chat_message_data)
     if chat_message_data["type"] == "invite":
         return await handle_invite(message, chat_message_data["hash"])
-    return await message.reply("Invalid message type!")
