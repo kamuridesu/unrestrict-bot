@@ -29,7 +29,7 @@ async def get_message_informations(message: str) -> dict:
             return {
                 "type": "message",
                 "chat_id": int(f"-100{message_data[4]}"),
-                "message_id": message_id_in_group
+                "message_id": message_id_in_group,
             }
         # public
         else:
@@ -41,6 +41,4 @@ async def get_message_informations(message: str) -> dict:
                 "chat_id": chat_id,
                 "message_id": message_id_in_group,
             }
-    return {
-        "type": "unknown"
-    }
+    return {"type": "unknown"}

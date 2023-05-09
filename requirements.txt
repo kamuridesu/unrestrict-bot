@@ -1,3 +1,4 @@
 aiogram==2.19
 Telethon==1.25.0
 cryptg==0.4.0
+mautrix==0.19.13
