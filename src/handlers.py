@@ -65,7 +65,7 @@ async def forward_message(
         with NamedTemporaryFile("rb+") as file:
             if message_to_copy.document:
                 await download_file(
-                    client, message_to_copy.media, file, progress.update
+                    client, message_to_copy.document, file, progress.update
                 )
             else:
                 await message_to_copy.download_media(

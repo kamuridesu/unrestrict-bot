@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   telegram-bot-api:
+    container_name: telegram-bot-api
     image: aiogram/telegram-bot-api:latest
     environment:
       TELEGRAM_API_ID: ${API_ID}
@@ -12,6 +13,7 @@ services:
       - 8081:8081
   
   telegram-bot:
+    container_name: telegram-bot
     build: .
     environment:
       API_HASH: ${API_HASH}
