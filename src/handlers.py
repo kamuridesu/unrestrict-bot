@@ -64,9 +64,13 @@ async def forward_message(
         print("Downloading media")
         with NamedTemporaryFile("rb+") as file:
             if message_to_copy.document:
-                await download_file(
-                    client, message_to_copy.document, file, progress.update
-                )
+                try:
+                    await download_file(
+                        client, message_to_copy.document, file, progress.update
+                    )
+                except (telethon.errors.rpcerrorlist.AuthBytesInvalidError, asyncio.exceptions.IncompleteReadError):
+                    print("Error: Authorizatoin is invalid! Falling back to default downloader...")
+                    await message_to_copy.download_media(file, progress_callback=progress.update)
             else:
                 await message_to_copy.download_media(
                     file=file, progress_callback=progress.update

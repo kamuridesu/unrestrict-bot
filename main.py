@@ -8,6 +8,8 @@ async def main():
     async with client:
         print("bot started!")
         await dispatcher.start_polling()
+        # print(StringSession.save(client.session))
+        # return
 
 
 if __name__ == "__main__":
