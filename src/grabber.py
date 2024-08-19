@@ -15,6 +15,7 @@ from telethon.errors.rpcerrorlist import (
     FloodWaitError,
     ChannelPrivateError,
 )
+from telethon.tl.types import InputMessagesFilterPhotoVideo
 
 from .configs import API_HASH, API_ID, SESSION_STRING
 
@@ -51,3 +52,8 @@ async def join_channel_or_group(invite_link_hash: str) -> dict[str, str | bool]:
         return {"error": False}
     except (UserAlreadyParticipantError, FloodWaitError) as e:
         return {"error": True, "message": str(e)}
+
+
+async def get_chat_history(chat_id: str, min_id):
+    async for message in client.iter_messages(chat_id, reverse=True, filter=InputMessagesFilterPhotoVideo, min_id=min_id):
+        yield message

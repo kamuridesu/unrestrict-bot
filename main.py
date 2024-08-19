@@ -6,7 +6,8 @@ from src.sender import dispatcher
 
 async def main():
     async with client:
-        print("bot started!")
+        # await forward_media()
+        print("Bot started")
         await dispatcher.start_polling()
         # print(StringSession.save(client.session))
         # return
