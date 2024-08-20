@@ -1,6 +1,7 @@
 """Functions and classes that may be util in the project"""
 
 import time
+
 from aiogram.types import Message
 from telethon.tl.custom.message import Message
 

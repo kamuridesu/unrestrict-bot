@@ -1,25 +1,21 @@
 """Handlers for handling messages, join groups and more.
 """
 
-import os
 import asyncio
-import telethon
-
+import os
 from tempfile import NamedTemporaryFile
-from typing import Callable, Coroutine, Any, Tuple
-from aiogram.types import Message, InputFile
+from typing import Any, Callable, Coroutine, Tuple
+
+import telethon
+from aiogram.types import InputFile, Message
 from aiogram.utils.exceptions import BadRequest
 from telethon.tl.custom.message import Message as TMessage
-from telethon.tl.types import (
-    MessageMediaPhoto,
-    MessageMediaDocument,
-    DocumentAttributeFilename,
-    Document,
-)
+from telethon.tl.types import (Document, DocumentAttributeFilename,
+                               MessageMediaDocument, MessageMediaPhoto)
 
-from .grabber import get_message_details, join_channel_or_group, client
-from .FastTelethon import download_file
-from .util import Progress
+from src.FastTelethon import download_file
+from src.grabber import client, get_message_details, join_channel_or_group
+from src.util import Progress
 
 
 async def search_for_file_name(attributes: list) -> str:
@@ -35,9 +31,10 @@ async def get_download_document(message: TMessage) -> Document:
 
 async def get_send_file_function(
     message_to_copy: TMessage, message: Message
-) -> Tuple[Callable[[bytes | InputFile], Coroutine[Any, Any, Message]], str] | Tuple[
-    None, None
-]:
+) -> (
+    Tuple[Callable[[bytes | InputFile], Coroutine[Any, Any, Message]], str]
+    | Tuple[None, None]
+):
     if isinstance(message_to_copy.media, MessageMediaPhoto):
         return message.reply_photo, ""
     if isinstance(message_to_copy.media, MessageMediaDocument):
@@ -68,9 +65,16 @@ async def forward_message(
                     await download_file(
                         client, message_to_copy.document, file, progress.update
                     )
-                except (telethon.errors.rpcerrorlist.AuthBytesInvalidError, asyncio.exceptions.IncompleteReadError):
-                    print("Error: Authorizatoin is invalid! Falling back to default downloader...")
-                    await message_to_copy.download_media(file, progress_callback=progress.update)
+                except (
+                    telethon.errors.rpcerrorlist.AuthBytesInvalidError,
+                    asyncio.exceptions.IncompleteReadError,
+                ):
+                    print(
+                        "Error: Authorizatoin is invalid! Falling back to default downloader..."
+                    )
+                    await message_to_copy.download_media(
+                        file, progress_callback=progress.update
+                    )
             else:
                 await message_to_copy.download_media(
                     file=file, progress_callback=progress.update

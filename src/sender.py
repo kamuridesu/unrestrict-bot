@@ -2,14 +2,13 @@
 
 It also load the configs and searches for a local web API. If not found, it gives a warning"""
 
-
 from aiogram import Bot, Dispatcher
-from aiogram.types import Message
 from aiogram.bot.api import TelegramAPIServer
+from aiogram.types import Message
 
-from .configs import BOT_TOKEN, API_HOST
-from .parsers import get_message_informations
-from .handlers import handle_message, handle_invite
+from src.configs import API_HOST, BOT_TOKEN
+from src.handlers import handle_invite, handle_message
+from src.parsers import get_message_informations
 
 bot_client = None
 if API_HOST is not None:

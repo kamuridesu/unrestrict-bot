@@ -51,7 +51,7 @@ docker-compose up --build -d
 ```
 
 # Getting the SESSION_STRING
-Just run this script: https://github.com/kamuridesu/save-restricted-bot/blob/main/generate_session.py
+Just run sessionstring.py
 
 If it asks you for a bot token or your number, use your number.
 

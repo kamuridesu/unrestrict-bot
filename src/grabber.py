@@ -5,20 +5,15 @@ This account may join the chat to be able to see the contents too
 
 import datetime
 
-from telethon import TelegramClient
-from telethon import functions, types
+from telethon import TelegramClient, functions, types
+from telethon.errors.rpcerrorlist import (ChannelPrivateError, FloodWaitError,
+                                          UserAlreadyParticipantError)
 from telethon.sessions import StringSession
 from telethon.tl.custom.message import Message
 from telethon.tl.functions.messages import ImportChatInviteRequest
-from telethon.errors.rpcerrorlist import (
-    UserAlreadyParticipantError,
-    FloodWaitError,
-    ChannelPrivateError,
-)
 from telethon.tl.types import InputMessagesFilterPhotoVideo
 
-from .configs import API_HASH, API_ID, SESSION_STRING
-
+from src.configs import API_HASH, API_ID, SESSION_STRING
 
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
@@ -55,5 +50,7 @@ async def join_channel_or_group(invite_link_hash: str) -> dict[str, str | bool]:
 
 
 async def get_chat_history(chat_id: str, min_id):
-    async for message in client.iter_messages(chat_id, reverse=True, filter=InputMessagesFilterPhotoVideo, min_id=min_id):
+    async for message in client.iter_messages(
+        chat_id, reverse=True, filter=InputMessagesFilterPhotoVideo, min_id=min_id
+    ):
         yield message

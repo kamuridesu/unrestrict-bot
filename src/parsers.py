@@ -3,8 +3,7 @@
 - Private chat messages
 - Private chat links"""
 
-
-from .grabber import get_public_chat_id_from_name
+from src.grabber import get_public_chat_id_from_name
 
 
 async def get_private_group_link(message: str) -> None:

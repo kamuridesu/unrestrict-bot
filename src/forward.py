@@ -1,9 +1,10 @@
-from src.grabber import client, get_chat_history
-from telethon.errors.rpcbaseerrors import FloodError
-from asyncio import sleep
 import json
 import os
+from asyncio import sleep
 
+from telethon.errors.rpcbaseerrors import FloodError
+
+from src.grabber import client, get_chat_history
 
 FROM = os.getenv("FORWARD_FROM")
 TO = os.getenv("FORWARD_TO")
@@ -28,7 +29,9 @@ ALREADY_SENT: list = load()
 async def forward_media():
     print("bot started!")
     messages = []
-    async for message in get_chat_history(FROM, ALREADY_SENT[-1] if len(ALREADY_SENT) > 0 else 0):
+    async for message in get_chat_history(
+        FROM, ALREADY_SENT[-1] if len(ALREADY_SENT) > 0 else 0
+    ):
         if len(messages) > 500:
             print(f"forwarding {len(messages)} messages")
             for _ in range(2):

@@ -1,6 +1,6 @@
 import asyncio
 
-from src.grabber import client, StringSession
+from src.grabber import StringSession, client
 from src.sender import dispatcher
 
 
