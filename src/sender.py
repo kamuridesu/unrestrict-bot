@@ -8,6 +8,7 @@ from aiogram.types import Message
 
 from src.configs import API_HOST, BOT_TOKEN
 from src.handlers import handle_invite, handle_message
+from src.health import HEALTHCHECK
 from src.parsers import get_message_informations
 
 bot_client = None
@@ -37,6 +38,7 @@ My source code: https://github.com/kamuridesu/unrestrict-bot
 
 @dispatcher.message_handler()
 async def handle_all_messages(message: Message):
+    HEALTHCHECK.healthy()
     chat_message_data = await get_message_informations(message.text)
     if chat_message_data["type"] == "message":
         return await handle_message(message, chat_message_data)

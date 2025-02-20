@@ -17,6 +17,8 @@ services:
     container_name: telegram-bot
     restart: unless-stopped
     build: .
+    healthcheck:
+      test: ["CMD-SHELL", "/bin/sh -c '[ $(find /tmp/healthz -mmin -1 | wc -l) -eq 1 ] || false'" ]
     environment:
       API_HASH: ${API_HASH}
       API_ID: ${API_ID}

@@ -2,6 +2,7 @@ import asyncio
 
 from src.forward import forward_media
 from src.grabber import client
+from src.health import HEALTHCHECK
 from src.sender import dispatcher
 
 
@@ -10,6 +11,7 @@ async def main():
         # print((await client.get_entity("me")))
         # await forward_media()
         print("Bot started")
+        HEALTHCHECK.healthy()
         await dispatcher.start_polling()
         # print(StringSession.save(client.session))
         # return

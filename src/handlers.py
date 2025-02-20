@@ -19,6 +19,7 @@ from telethon.tl.types import (
 
 from src.FastTelethon import download_file
 from src.grabber import client, get_message_details, join_channel_or_group
+from src.health import HEALTHCHECK
 from src.util import Progress
 
 
@@ -105,6 +106,7 @@ async def forward_message(
                         await asyncio.sleep(3)
                 else:
                     print("Failed to send media!")
+                    HEALTHCHECK.unhealthy()
                     return
             else:
                 sent_message = await message.reply(message_to_copy.text)
