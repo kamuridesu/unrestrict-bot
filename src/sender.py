@@ -11,7 +11,8 @@ from src.handlers import handle_invite, handle_message
 from src.parsers import get_message_informations
 
 bot_client = None
-if API_HOST is not None:
+if API_HOST:
+    print("Starting BOT with local Telegram API")
     local_server = TelegramAPIServer.from_base(API_HOST)
     bot_client = Bot(BOT_TOKEN, server=local_server)
 else:

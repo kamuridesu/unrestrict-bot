@@ -2,6 +2,7 @@ services:
   telegram-bot-api:
     container_name: telegram-bot-api
     image: aiogram/telegram-bot-api:latest
+    restart: unless-stopped
     environment:
       TELEGRAM_API_ID: ${API_ID}
       TELEGRAM_API_HASH: ${API_HASH}
@@ -14,6 +15,7 @@ services:
   
   telegram-bot:
     container_name: telegram-bot
+    restart: unless-stopped
     build: .
     environment:
       API_HASH: ${API_HASH}

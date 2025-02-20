@@ -10,8 +10,12 @@ import telethon
 from aiogram.types import InputFile, Message
 from aiogram.utils.exceptions import BadRequest
 from telethon.tl.custom.message import Message as TMessage
-from telethon.tl.types import (Document, DocumentAttributeFilename,
-                               MessageMediaDocument, MessageMediaPhoto)
+from telethon.tl.types import (
+    Document,
+    DocumentAttributeFilename,
+    MessageMediaDocument,
+    MessageMediaPhoto,
+)
 
 from src.FastTelethon import download_file
 from src.grabber import client, get_message_details, join_channel_or_group
@@ -70,7 +74,7 @@ async def forward_message(
                     asyncio.exceptions.IncompleteReadError,
                 ):
                     print(
-                        "Error: Authorizatoin is invalid! Falling back to default downloader..."
+                        "Error: Authorization is invalid! Falling back to default downloader..."
                     )
                     await message_to_copy.download_media(
                         file, progress_callback=progress.update

@@ -1,11 +1,13 @@
 import asyncio
 
-from src.grabber import StringSession, client
+from src.forward import forward_media
+from src.grabber import client
 from src.sender import dispatcher
 
 
 async def main():
     async with client:
+        # print((await client.get_entity("me")))
         # await forward_media()
         print("Bot started")
         await dispatcher.start_polling()
